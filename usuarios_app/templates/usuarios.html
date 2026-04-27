@@ -1,0 +1,8 @@
+<h1>Usuarios</h1>
+<ul>
+    {% for usuario in usuarios %}
+        <li>{{ usuario.nombre }}</li>
+    {% empty %}
+        <li>No hay usuarios registrados</li>
+    {% endfor %}
+</ul>

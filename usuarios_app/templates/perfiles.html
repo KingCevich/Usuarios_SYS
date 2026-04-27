@@ -1,0 +1,8 @@
+<h1>Perfiles</h1>
+<ul>
+    {% for perfil in perfiles %}
+        <li>{{ perfil.usuario_perfil }}</li>
+    {% empty %}
+        <li>No hay perfiles registrados</li>
+    {% endfor %}
+</ul>

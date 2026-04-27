@@ -1,0 +1,8 @@
+<h1>Preferencias</h1>
+<ul>
+    {% for preferencia in preferencias %}
+        <li>{{ preferencia.usuario_preferencia }}</li>
+    {% empty %}
+        <li>No hay preferencias registradas</li>
+    {% endfor %}
+</ul>
