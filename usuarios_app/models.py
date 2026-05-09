@@ -1,7 +1,7 @@
 from django.db import models
 
 ROL = [
-    ("Dueño", "Dueño"),
+    ("Dueno", "Dueno"),
     ("Colaborador", "Colaborador"),
     ("Veterinario", "Veterinario"),
     ("Refugio", "Refugio"),
@@ -19,6 +19,10 @@ class Usuario(models.Model):
     rol = models.CharField(max_length=20, choices=ROL)
     aprobacion_org = models.BooleanField(default=False)
     fecha_registro = models.DateTimeField(auto_now_add=True)
+
+
+    is_active = models.BooleanField(default=True)
+
 
     def __str__(self):
         return f"{self.nombre} {self.apellido} - {self.get_rol_display()}"
