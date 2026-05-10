@@ -1,4 +1,4 @@
-from django.db.models.signals import post_migrate
+from django.db.models.signals import post_migrate, post_save
 from django.dispatch import receiver
 from django.contrib.auth.hashers import make_password
 from .models import Usuario
@@ -17,3 +17,9 @@ def create_default_user(sender, **kwargs):
             aprobacion_org=True
         )
         print("<<<<Usuario de prueba creado>>>>")
+
+@receiver(post_save, sender=Usuario)
+def hash_password_on_save(sender, instance, **kwargs):
+    if instance.password and not instance.password.startswith('pbkdf2_sha256$'):
+        instance.password = make_password(instance.password)
+        instance.save(update_fields=['password'])
