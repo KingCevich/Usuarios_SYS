@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Usuario, Perfil_entidad, Preferencia
+from .models import Usuario, Perfil_entidad, Preferencia, Entidad
 from django.contrib.auth.hashers import make_password
 
 class UsuarioSerializer(serializers.ModelSerializer):
@@ -18,6 +18,11 @@ class UsuarioSerializer(serializers.ModelSerializer):
         if password:
             validated_data["password"] = make_password(password)  #  encripta
         return super().update(instance, validated_data)
+
+class EntidadSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Entidad
+        fields = '__all__'
 
 class Perfil_entidadSerializer(serializers.ModelSerializer):
     class Meta:

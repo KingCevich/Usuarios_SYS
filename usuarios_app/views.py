@@ -1,10 +1,10 @@
 from django.shortcuts import render
-from .models import Usuario, Perfil_entidad, Preferencia
+from .models import Entidad, Usuario, Perfil_entidad, Preferencia
 
 from rest_framework.views import APIView
 from rest_framework import status, viewsets
 from rest_framework.response import Response
-from .serializers import UsuarioSerializer, Perfil_entidadSerializer, PreferenciaSerializer
+from .serializers import EntidadSerializer, UsuarioSerializer, Perfil_entidadSerializer, PreferenciaSerializer
 
 from rest_framework.decorators import api_view
 import jwt, time
@@ -23,6 +23,10 @@ def lista_perfiles(request):
 def lista_preferencias(request):
     preferencias = Preferencia.objects.all()
     return render(request, 'preferencias.html', {'preferencias': preferencias})
+
+def lista_entidades(request):
+    entidades = Entidad.objects.all()
+    return render(request, 'entidades.html', {'entidades': entidades})
 
 class UsuarioViewSet(viewsets.ModelViewSet):    
     queryset = Usuario.objects.all()
@@ -43,6 +47,9 @@ class PreferenciaViewSet(viewsets.ModelViewSet):
     queryset = Preferencia.objects.all()
     serializer_class = PreferenciaSerializer
 
+class EntidadViewSet(viewsets.ModelViewSet):
+    queryset = Entidad.objects.all()
+    serializer_class = EntidadSerializer
 
 # @api_view(["POST"])
 # def login_user(request):

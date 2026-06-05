@@ -2,10 +2,13 @@ from django.db.models.signals import post_migrate, post_save
 from django.dispatch import receiver
 from django.contrib.auth.hashers import make_password
 from .models import Usuario, Perfil_entidad, Preferencia
+import sys
 
 @receiver(post_migrate)
 def create_default_users(sender, **kwargs):
     if sender.name != 'usuarios_app':  # ← cambia por el nombre real de tu app
+        return
+    if 'test' in sys.argv:  
         return
 
     usuarios = [
@@ -92,6 +95,8 @@ def create_default_users(sender, **kwargs):
 @receiver(post_migrate)
 def create_default_user(sender, **kwargs):  # ← el original, mantenlo si quieres
     if sender.name != 'usuarios_app':
+        return
+    if 'test' in sys.argv:  
         return
     if not Usuario.objects.filter(email="demo@auth.com").exists():
         u = Usuario.objects.create(
