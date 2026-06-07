@@ -51,6 +51,13 @@ class EntidadViewSet(viewsets.ModelViewSet):
     queryset = Entidad.objects.all()
     serializer_class = EntidadSerializer
 
+    def get_queryset(self):
+        queryset = Entidad.objects.all()
+        aprobada = self.request.query_params.get('aprobacion_entidad')
+        if aprobada is not None:
+            queryset = queryset.filter(aprobacion_entidad=aprobada.lower() == 'true')
+        return queryset
+
 # @api_view(["POST"])
 # def login_user(request):
 #     email = request.data.get("email")

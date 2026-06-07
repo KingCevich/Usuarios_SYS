@@ -138,3 +138,79 @@ def create_default_users(sender, **kwargs):
         )
         Preferencia.objects.create(usuario_preferencia=u)
         print("<<<<Usuario de prueba creado: demo@auth.com>>>>")
+
+    # 8. Dueño extra 1
+    if not Usuario.objects.filter(email="juan@dueno.cl").exists():
+        juan = Usuario.objects.create(
+            nombre="Juan", apellido="Peralta",
+            email="juan@dueno.cl", rut="33333333-3",
+            telefono="+56999887766", password=make_password("123456"),
+            rol="Dueno"
+        )
+        Preferencia.objects.create(usuario_preferencia=juan)
+        print("<<<<Usuario creado: juan@dueno.cl>>>>")
+
+    # 9. Dueño extra 2
+    if not Usuario.objects.filter(email="maria@dueno.cl").exists():
+        maria = Usuario.objects.create(
+            nombre="María", apellido="González",
+            email="maria@dueno.cl", rut="44444444-4",
+            telefono="+56988776655", password=make_password("123456"),
+            rol="Dueno"
+        )
+        Preferencia.objects.create(usuario_preferencia=maria)
+        print("<<<<Usuario creado: maria@dueno.cl>>>>")
+
+    # 10. Refugio adicional (Fundación Huella Animal)
+    if not Usuario.objects.filter(email="huella@demo.com").exists():
+        admin_huella = Usuario.objects.create(
+            nombre="Admin", apellido="Huella",
+            email="huella@demo.com", rut="77777777-7",
+            telefono="+56977777777", password=make_password("123456"),
+            rol="Colaborador"
+        )
+        Preferencia.objects.create(usuario_preferencia=admin_huella)
+        entidad_huella = Entidad.objects.create(
+            nombre_entidad="Fundación Huella Animal",
+            tipo_entidad="Refugio",
+            rut_entidad="77777777-7",
+            email_entidad="huella@demo.com",
+            ubicacion_entidad="Ñuñoa, Santiago",
+            comuna_entidad="Ñuñoa",
+            telefono_entidad="+56977777777",
+            descripcion_entidad="Rescate y rehabilitación de animales abandonados. Sin fines de lucro.",
+            aprobacion_entidad=True
+        )
+        Perfil_entidad.objects.create(
+            usuario_perfil=admin_huella,
+            entidad_perfil=entidad_huella,
+            rol_entidad="Administrador"
+        )
+        print("<<<<Usuario y entidad creados: huella@demo.com>>>>")
+
+    # 11. Veterinaria adicional
+    if not Usuario.objects.filter(email="vetbiobio@demo.com").exists():
+        admin_biobio = Usuario.objects.create(
+            nombre="Admin", apellido="Bío Bío",
+            email="vetbiobio@demo.com", rut="88888888-8",
+            telefono="+56988888888", password=make_password("123456"),
+            rol="Colaborador"
+        )
+        Preferencia.objects.create(usuario_preferencia=admin_biobio)
+        entidad_biobio = Entidad.objects.create(
+            nombre_entidad="Veterinaria Bío Bío",
+            tipo_entidad="Veterinaria",
+            rut_entidad="88888888-8",
+            email_entidad="vetbiobio@demo.com",
+            ubicacion_entidad="Concepción",
+            comuna_entidad="Concepción",
+            telefono_entidad="+56988888888",
+            descripcion_entidad="Atención veterinaria integral y urgencias 24 horas.",
+            aprobacion_entidad=True
+        )
+        Perfil_entidad.objects.create(
+            usuario_perfil=admin_biobio,
+            entidad_perfil=entidad_biobio,
+            rol_entidad="Administrador"
+        )
+        print("<<<<Usuario y entidad creados: vetbiobio@demo.com>>>>")
