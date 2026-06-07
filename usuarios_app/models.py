@@ -3,25 +3,18 @@ from django.db import models
 
 ROL_ENTIDAD = [
         ("Administrador", "Administrador de entidad"),
-        ("Trabajador", "Trabajador/Empleado"),
-        ("Voluntario", "Voluntario"),
-        ("Colaborador", "Colaborador de contenido"), 
+        ("Trabajador", "Trabajador/Empleado")
     ]
 
 TIPO_ENTIDAD = [
         ("Refugio", "Refugio"),
         ("Municipalidad", "Municipalidad"),
-        ("Clinica", "Clínica Veterinaria"),
-        ("Fundacion", "Fundación"),
-        ("Otro", "Otro"),
+        ("Veterinaria", "Clínica Veterinaria")
     ]
 
 ROL = [
-    ("Dueno", "Dueno"),
+    ("Dueno", "Dueño"),
     ("Colaborador", "Colaborador"),
-    ("Veterinario", "Veterinario"),
-    ("Refugio", "Refugio"),
-    ("Municipalidad", "Municipalidad"),
     ("Admin", "Admin"),
 ]
 
@@ -31,14 +24,10 @@ class Usuario(models.Model):
     email = models.EmailField(unique=True)
     rut = models.CharField(max_length=12, blank=True, null=True)
     telefono = models.CharField(max_length=20, blank=True, null=True)
-    password = models.CharField(max_length=255, required=True)
+    password = models.CharField(max_length=255)
     rol = models.CharField(max_length=20, choices=ROL)
-    aprobacion_org = models.BooleanField(default=False)
-    fecha_registro = models.DateTimeField(auto_now_add=True)
-
-
     is_active = models.BooleanField(default=True)
-
+    fecha_registro = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.nombre} {self.apellido} - {self.get_rol_display()}"
@@ -46,10 +35,11 @@ class Usuario(models.Model):
 class Entidad(models.Model):
     nombre_entidad = models.CharField(max_length=100)
     tipo_entidad = models.CharField(max_length=20, choices=TIPO_ENTIDAD)
-    rut_entidad = models.CharField(max_length=12, blank=True, null=True)
+    rut_entidad = models.CharField(max_length=12, unique=True)
     telefono_entidad = models.CharField(max_length=20, blank=True, null=True)
-    email_entidad = models.EmailField(blank=True, null=True)
-    ubicacion_entidad = models.CharField(max_length=255, blank=True, null=True)
+    email_entidad = models.EmailField()
+    ubicacion_entidad = models.CharField(max_length=255)
+    comuna_entidad = models.CharField(max_length=100)
     descripcion_entidad = models.TextField(blank=True, null=True)
     aprobacion_entidad = models.BooleanField(default=False)
     fecha_creacion_entidad = models.DateTimeField(auto_now_add=True)
