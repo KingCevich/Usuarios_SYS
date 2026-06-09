@@ -41,7 +41,21 @@ class UsuarioViewSet(viewsets.ModelViewSet):
 
 class Perfil_entidadViewSet(viewsets.ModelViewSet):
     queryset = Perfil_entidad.objects.all()
-    serializer_class = Perfil_entidadSerializer 
+    serializer_class = Perfil_entidadSerializer
+
+    def get_queryset(self):
+        queryset = Perfil_entidad.objects.all()
+        usuario_perfil = self.request.query_params.get('usuario_perfil')
+        entidad_perfil = self.request.query_params.get('entidad_perfil')
+        es_activo = self.request.query_params.get('es_activo')
+
+        if usuario_perfil is not None:
+            queryset = queryset.filter(usuario_perfil_id=usuario_perfil)
+        if entidad_perfil is not None:
+            queryset = queryset.filter(entidad_perfil_id=entidad_perfil)
+        if es_activo is not None:
+            queryset = queryset.filter(es_activo=es_activo.lower() == 'true')
+        return queryset
 
 class PreferenciaViewSet(viewsets.ModelViewSet):
     queryset = Preferencia.objects.all()
