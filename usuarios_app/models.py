@@ -26,6 +26,7 @@ class Usuario(models.Model):
     telefono = models.CharField(max_length=20, blank=True, null=True)
     password = models.CharField(max_length=255)
     rol = models.CharField(max_length=20, choices=ROL)
+    aprobacion_org = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     fecha_registro = models.DateTimeField(auto_now_add=True)
 
@@ -45,15 +46,15 @@ class Entidad(models.Model):
     fecha_creacion_entidad = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.nombre_entidad} ({self.get_tipo_display()})"
+        return f"{self.nombre_entidad} ({self.get_tipo_entidad_display()})"
 
     
 class Perfil_entidad(models.Model):
     usuario_perfil = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name="perfil_entidad")
-    entidad_perfil = models.ForeignKey(Entidad, on_delete=models.CASCADE, related_name="perfil_entidad")
-    rol_entidad = models.CharField(max_length=20, choices=ROL_ENTIDAD)
+    entidad_perfil = models.ForeignKey(Entidad, on_delete=models.CASCADE, related_name="perfil_entidad", null=True, blank=True)
+    rol_entidad = models.CharField(max_length=20, choices=ROL_ENTIDAD, null=True, blank=True)
     es_activo = models.BooleanField(default=True)
-    fecha_ingreso_perfil = models.DateTimeField(auto_now_add=True)
+    fecha_ingreso_perfil = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     class Meta:
         unique_together = ('usuario_perfil', 'entidad_perfil')
 

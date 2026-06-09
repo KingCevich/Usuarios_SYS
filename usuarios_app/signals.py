@@ -14,7 +14,7 @@ def create_default_users(sender, **kwargs):
     # 1. Dueño
     if not Usuario.objects.filter(email="dueno@demo.com").exists():
         dueno = Usuario.objects.create(
-            nombre="Demo", apellido="Dueño",
+            nombre="Demo", apellido="Dueno",
             email="dueno@demo.com", rut="11111111-1",
             telefono="+56911111111", password=make_password("123456"),
             rol="Dueno"
