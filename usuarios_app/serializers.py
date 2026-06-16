@@ -25,6 +25,14 @@ class EntidadSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class Perfil_entidadSerializer(serializers.ModelSerializer):
+    entidad_perfil = EntidadSerializer(read_only=True)
+    
+    entidad_perfil_id = serializers.PrimaryKeyRelatedField(
+        queryset=Entidad.objects.all(),
+        source='entidad_perfil',
+        write_only=True
+    )    
+
     class Meta:
         model = Perfil_entidad
         fields = '__all__'
