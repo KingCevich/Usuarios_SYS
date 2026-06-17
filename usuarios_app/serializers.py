@@ -3,6 +3,8 @@ from .models import Usuario, Perfil_entidad, Preferencia, Entidad
 from django.contrib.auth.hashers import make_password
 
 class UsuarioSerializer(serializers.ModelSerializer):
+    # password = serializers.CharField(required=True)
+    
     class Meta:
         model = Usuario
         fields = '__all__'

@@ -5,7 +5,7 @@ from .models import Usuario, Entidad, Perfil_entidad, Preferencia
 
 
 class UsuarioModelTest(TestCase):
-    """Pruebas de creación de modelo Usuario."""
+    """Pruebas de creación de modelo Usuario a nivel de base de datos."""
 
     def test_create_usuario(self):
         # Verifica que se puede crear un usuario y su __str__ esté formateado correctamente.
@@ -123,7 +123,7 @@ class UsuarioAPITest(APITestCase):
         self.assertGreaterEqual(len(response.data), 1)
 
     def test_create_usuario(self):
-        # POST /api/usuarios/ debe crear un usuario nuevo.
+        # POST /api/usuarios/ debe crear un usuario nuevo a nivel API.
         url = '/api/usuarios/'
         data = {
             'nombre': 'Maria',
@@ -136,6 +136,19 @@ class UsuarioAPITest(APITestCase):
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertGreaterEqual(Usuario.objects.count(), 2)
+
+    def test_create_usuario_sin_password_falla(self):
+        url = '/api/usuarios/'
+        data = {
+            'nombre': 'Sin',
+            'apellido': 'Password',
+            'email': 'sinpass@example.com',
+            'telefono': '111111111',
+            'rol': 'Dueno'
+            # sin password
+        }
+        response = self.client.post(url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_retrieve_usuario(self):
         # GET /api/usuarios/{id}/ debe devolver el usuario correcto.
@@ -251,11 +264,12 @@ class PerfilEntidadAPITest(APITestCase):
         url = '/api/perfiles/'
         data = {
             'usuario_perfil': self.usuario.pk,
-            'entidad_perfil': otra_entidad.pk,
+            'entidad_perfil_id': otra_entidad.pk,
             'rol_entidad': 'Trabajador',
             'es_activo': True
         }
         response = self.client.post(url, data, format='json')
+        print(response.data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Perfil_entidad.objects.count(), 2)
 
