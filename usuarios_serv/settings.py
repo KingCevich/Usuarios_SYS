@@ -22,12 +22,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-j&u5@zk9ocobq=nm4@oupw5aysf#qf9mtcf2i8ed9wz#g0u169')
+SECRET_KEY = 'django-insecure-j&u5@zk9ocobq=nm4@oupw5aysf#qf9mtcf2i8ed9wz#g0u169'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+DEBUG = True
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -45,7 +45,6 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -78,9 +77,14 @@ WSGI_APPLICATION = 'usuarios_serv.wsgi.application'
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.parse(
-        os.environ.get('DATABASE_URL', 'postgresql://user_usuarios:pass123@localhost:5432/user_db')
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'user_db',
+        'USER': 'user_usuarios',
+        'PASSWORD': 'pass123',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
 }
 
 
@@ -119,4 +123,3 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
