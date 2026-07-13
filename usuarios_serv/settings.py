@@ -79,7 +79,7 @@ WSGI_APPLICATION = 'usuarios_serv.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.parse(
-        os.environ.get('DATABASE_URL', 'postgresql://user_usuarios:pass123@localhost:5432/user_db')
+        os.environ.get('DATABASE_URL', 'postgresql://user_usuarios:pass123@localhost:5432/user_db?sslmode=require')
     )
 }
 
