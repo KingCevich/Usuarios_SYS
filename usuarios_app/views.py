@@ -39,18 +39,6 @@ class UsuarioViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(email=email)
         return queryset
 
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        return Response(
-            {
-                **serializer.data,
-                "mensaje": "¡Usuario registrado exitosamente en SanosYSalvos!"
-            },
-            status=status.HTTP_201_CREATED
-        )
-
 class Perfil_entidadViewSet(viewsets.ModelViewSet):
     queryset = Perfil_entidad.objects.all()
     serializer_class = Perfil_entidadSerializer
